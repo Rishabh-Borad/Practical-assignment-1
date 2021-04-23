@@ -151,7 +151,7 @@ def testAvalanche(entry1,entry2,entry,numRounds,halfwidth,testMessage):
 	key=entry.get("1.0",END)
 
 	if testMessage:
-		
+		print(msg1==msg2)
 		key=hex2bin(key)
 		pc1Table=generatePC1Table(len(key))
 		key=permutedChoice(key,pc1Table)
@@ -238,6 +238,7 @@ cte=Text(root,width=50,height=10)
 
 #-----------------------------------------avalanche---------------------------------------------
 
+
 ml1=Label(root,text="PLAINTEXT1",font=("Times New Roman",14))
 ml2=Label(root,text="PLAINTEXT2",font=("Times New Roman",14))
 kl=Label(root,text="KEY",font=("Times New Roman",14))
@@ -281,6 +282,13 @@ printKeys=Button(root,text="print keys",command=lambda:printAllKeys(keys))
 nRounds=IntVar()
 halfwidths=IntVar()
 
+#label for number of rounds
+nRLabel=Label(frame,text="Number of rounds",font=("Times New Roman",14))
+#label for halfwidth
+hLabel=Label(frame,text="halfWidth",font=("Times New Roman",14))
+#label for space
+sLabel=Label(frame,text="   ",font=("Times New Roman",14))
+
 #Radiobuttons for numRounds
 r1=Radiobutton(frame,text=" 1",value="1",variable=nRounds,command=lambda:setRounds(nRounds,keyEntry))
 r2=Radiobutton(frame,text=" 8",value="8",variable=nRounds,command=lambda:setRounds(nRounds,keyEntry))
@@ -310,31 +318,33 @@ printKeys.grid(row=5,column=2)
 
 frame.grid(row=5,column=0)
 
-r1.grid(row=0,column=0)
-r2.grid(row=1,column=0)
-r3.grid(row=2,column=0)
-r4.grid(row=3,column=0)
+nRLabel.grid(row=0,column=0)
+r1.grid(row=1,column=0)
+r2.grid(row=2,column=0)
+r3.grid(row=3,column=0)
+r4.grid(row=4,column=0)
 
-h1.grid(row=0,column=1)
-h2.grid(row=1,column=1)
-h3.grid(row=2,column=1)
+sLabel.grid(row=0,column=1)
+
+hLabel.grid(row=0,column=2)
+h1.grid(row=1,column=2)
+h2.grid(row=2,column=2)
+h3.grid(row=3,column=2)
 
 ml1.grid(row=6,column=0)
-kl.grid(row=6,column=1)
-ml2.grid(row=6,column=2)
+kl.grid(row=8,column=0)
+ml2.grid(row=10,column=0)
 m1.grid(row=7,column=0)
-k.grid(row=7,column=1)
-m2.grid(row=7,column=2)
+k.grid(row=9,column=0)
+m2.grid(row=11,column=0)
+tam.grid(row=12,column=0)
 
-tam.grid(row=8,column=1)
-ml.grid(row=9,column=0)
-kl1.grid(row=9,column=2)
-k1.grid(row=10,column=0)
-m.grid(row=10,column=2)
-# k2.grid(row=10,column=2)
 
-tak.grid(row=11,column=1)
+ml.grid(row=6,column=2)
+kl1.grid(row=8,column=2)
+k1.grid(row=9,column=2)
+m.grid(row=7,column=2)\
+
+tak.grid(row=10,column=2)
 
 root.mainloop()
-
-# testAvalanche(bin2hex("0000000000000000000000000000000000000000000000000000000000000000"),bin2hex("1000000000000000000000000000000000000000000000000000000000000000"),bin2hex("00000011001011010010011000100011100001100000111000110010"),numRounds,halfwidth)
