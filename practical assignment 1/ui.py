@@ -2,6 +2,7 @@
 from avalanche import *
 #importing tkinter
 from tkinter import *
+from tkinter import ttk
 
 #function to encrypt data
 #msg : data in hexadecimal format
@@ -142,9 +143,12 @@ def testAvalanche(entry1,entry2,entry,numRounds,halfwidth,testMessage):
 	
 	avaEntries=[]
 	roundNumberEntries=[]
+	#creating a new ui to show the table of avalanche effect
 	ava=Tk()
-	rl=Label(ava,text="Rounds",font=("Times New Roman",14))
-	bl=Label(ava,text="Change in bits",font=("Times New Roman",14))
+	ava.configure(background="#abcfef")
+
+	rl=Label(ava,text="Rounds",bg="#abcfef",font=("Times New Roman",14),fg="white")
+	bl=Label(ava,text="Change in bits",bg="#abcfef",font=("Times New Roman",14),fg="white")
 	msg1=entry1.get("1.0",END)
 	msg2=""
 	if entry2 != None:
@@ -157,26 +161,33 @@ def testAvalanche(entry1,entry2,entry,numRounds,halfwidth,testMessage):
 		pc1Table=generatePC1Table(len(key))
 		key=permutedChoice(key,pc1Table)
 		out=testAvalancheForMessages(msg1,msg2,key,numRounds,halfwidth)
-		
-		avaEntries=[Text(ava,width=10,height=1) for i in range(numRounds)]
-		roundNumberEntries=[Label(ava,text=str(i),font=("Times New Roman",14)) for i in range(1,numRounds+1)]
-		for i in range(numRounds):
-			avaEntries[i].insert("1.0",str(out[i]))
-			roundNumberEntries[i].grid(row=9+i,column=0)
-			avaEntries[i].grid(row=9+i,column=1)
+		start=0
+		if numRounds==32:
+			#as my screen size is not bit enough, i reduced some of the starting rounds to represent the last rounds
+			start=4
+		avaEntries=[Text(ava,width=10,height=1,bg="#4EB1BA") for i in range(start,numRounds)]
+		roundNumberEntries=[Label(ava,text=str(i),bg="#abcfef",font=("Times New Roman",14),fg="white") for i in range(1+start,numRounds+1)]
+		for i in range(start,numRounds):
+
+			avaEntries[i-start].insert("1.0",str(out[i]))
+			roundNumberEntries[i-start].grid(row=9+i,column=0)
+			avaEntries[i-start].grid(row=9+i,column=1)
 	else:
 		ava.title("Avalanche for keys")
 		msg1=hex2bin(msg1)
 		pc1Table=generatePC1Table(len(msg1))
 		msg1=permutedChoice(msg1,pc1Table)
 		out=testAvalancheForKeys(key,msg1,numRounds,halfwidth)
-		
-		avaEntries=[Text(ava,width=10,height=1) for i in range(numRounds)]
-		roundNumberEntries=[Label(ava,text=str(i),font=("Times New Roman",14)) for i in range(1,numRounds+1)]
-		for i in range(numRounds):
-			avaEntries[i].insert("1.0",str(out[i]))
-			roundNumberEntries[i].grid(row=9+i,column=0)
-			avaEntries[i].grid(row=9+i,column=1)
+		start=0
+		if numRounds==32:
+			#as my screen size is not bit enough, i reduced some of the starting rounds to represent the last rounds
+			start=4
+		avaEntries=[Text(ava,width=10,height=1,bg="#4EB1BA") for i in range(start,numRounds)]
+		roundNumberEntries=[Label(ava,text=str(i),bg="#abcfef",font=("Times New Roman",14),fg="white") for i in range(1+start,numRounds+1)]
+		for i in range(start,numRounds):
+			avaEntries[i-start].insert("1.0",str(out[i]))
+			roundNumberEntries[i-start].grid(row=9+i,column=0)
+			avaEntries[i-start].grid(row=9+i,column=1)
 
 	rl.grid(row=0,column=0)
 	bl.grid(row=0,column=1)
@@ -186,11 +197,13 @@ def testAvalanche(entry1,entry2,entry,numRounds,halfwidth,testMessage):
 #function to print all keys
 #keys : list of keys for all rounds
 def printAllKeys(keys):
+	#creating a new ui to show the table of all round keys
 	keyOut=Tk()
 	keyOut.title("keys")
+	keyOut.configure(background="#abcfef")
 	numRounds=len(keys)
-	avaEntries=[Text(keyOut,width=10,height=1) for i in range(numRounds)]
-	roundNumberEntries=[Label(keyOut,text=str(i),font=("Times New Roman",14)) for i in range(1,numRounds+1)]
+	avaEntries=[Text(keyOut,width=10,height=1,bg="#4EB1BA") for i in range(numRounds)]
+	roundNumberEntries=[Label(keyOut,text=str(i),bg="#abcfef",font=("Times New Roman",14),fg="white") for i in range(1,numRounds+1)]
 
 	for i in range(numRounds):
 		avaEntries[i].insert("1.0",bin2hex(keys[i]))
@@ -222,64 +235,67 @@ halfwidth=32
 keys=[]
 
 root=Tk()
-root.title("DES")
+ttk.Style().configure("TButton", padding=6, relief="flat", background="#ffffff")
+root.title("Practical Assignment 1")
+root.configure(background="#abcfef")
 
 frame=LabelFrame(root,text="",padx=10,pady=10)
+frame.configure(background="#222930")
 
 #Plaintext Label
-ptl=Label(root,text="PLAINTEXT",font=("Times New Roman",14))
+ptl=Label(root,text="PLAINTEXT",bg="#abcfef",font=("Times New Roman",14),fg="white")
 #Ciphertext Label
-ctl=Label(root,text="CIPHERTEXT",font=("Times New Roman",14))
+ctl=Label(root,text="CIPHERTEXT",bg="#abcfef",font=("Times New Roman",14),fg="white")
 #Key Label
-keyl=Label(root,text="KEY",font=("Times New Roman",14))
+keyl=Label(root,text="KEY",bg="#abcfef",font=("Times New Roman",14),fg="white")
 
 #Key text field
-keyEntry=Text(root,width=50,height=1)
+keyEntry=Text(root,width=50,height=5,bg="#4EB1BA")
 #Plaintext field
-pte=Text(root,width=50,height=10)
+pte=Text(root,width=50,height=10,bg="#4EB1BA")
 #Ciphertext field
-cte=Text(root,width=50,height=10)
+cte=Text(root,width=50,height=10,bg="#4EB1BA")
 
 #-----------------------------------------avalanche---------------------------------------------
 
 
-ml1=Label(root,text="PLAINTEXT1",font=("Times New Roman",14))
-ml2=Label(root,text="PLAINTEXT2",font=("Times New Roman",14))
-kl=Label(root,text="KEY",font=("Times New Roman",14))
+ml1=Label(root,text="PLAINTEXT1",bg="#abcfef",font=("Times New Roman",14),fg="white")
+ml2=Label(root,text="PLAINTEXT2",bg="#abcfef",font=("Times New Roman",14),fg="white")
+kl=Label(root,text="KEY",bg="#abcfef",font=("Times New Roman",14),fg="white")
 
 #message for avalanche field
-m1=Text(root,width=50,height=1)
+m1=Text(root,width=50,height=1,bg="#4EB1BA")
 #message for avalanche field
-m2=Text(root,width=50,height=1)
+m2=Text(root,width=50,height=1,bg="#4EB1BA")
 #key for avalanche field
-k=Text(root,width=50,height=1)
+k=Text(root,width=50,height=1,bg="#4EB1BA")
 
 
-kl1=Label(root,text="KEY",font=("Times New Roman",14))
-ml=Label(root,text="PLAINTEXT",font=("Times New Roman",14))
+kl1=Label(root,text="KEY",bg="#abcfef",font=("Times New Roman",14),fg="white")
+ml=Label(root,text="PLAINTEXT",bg="#abcfef",font=("Times New Roman",14),fg="white")
 #key for avalanche field
-k1=Text(root,width=50,height=1)
+k1=Text(root,width=50,height=1,bg="#4EB1BA")
 #key for avalanche field
 # k2=Text(root,width=50,height=1)
 #message for avalanche field
-m=Text(root,width=50,height=1)
+m=Text(root,width=50,height=1,bg="#4EB1BA")
 
 #test avalanche for message button
-tam=Button(root,text="Test avalanche for messages",font=("Times New Roman",14),command=lambda:testAvalanche(m1,m2,k,numRounds,halfwidth,True))
+tam=Button(root,text="Test avalanche for messages",font=("Times New Roman",14),command=lambda:testAvalanche(m1,m2,k,numRounds,halfwidth,True),bg="#E9E9E9",bd=10,relief="solid")
 #test avalanche for key button
-tak=Button(root,text="Test avalanche for keys",font=("Times New Roman",14),command=lambda:testAvalanche(k1,None,m,numRounds,halfwidth,False))
+tak=Button(root,text="Test avalanche for keys",font=("Times New Roman",14),command=lambda:testAvalanche(k1,None,m,numRounds,halfwidth,False),bg="#E9E9E9",bd=10,relief="solid")
 
 #------------------------------------------------------------------------------------------------
 
 #Button to set key
-keyb=Button(root,text="set key",command=lambda:preprocess(keyEntry,numRounds))
+keyb=Button(root,text="set key",command=lambda:preprocess(keyEntry,numRounds),bg="#E9E9E9",bd=10,relief="solid",width=30,height=5,font=("Times New Roman",14))
 #Encryption button
-ptb=Button(root,text=">>Encipher>>",font=("Times New Roman",14),command=lambda:putText(pte,cte,True,keys,numRounds,halfwidth))
+ptb=Button(root,text=">>Encipher>>",font=("Times New Roman",14),command=lambda:putText(pte,cte,True,keys,numRounds,halfwidth),bg="#E9E9E9",bd=10,relief="solid")
 #Decryption button
-dtb=Button(root,text="<<Decipher<<",font=("Times New Roman",14),command=lambda:putText(cte,pte,False,keys,numRounds,halfwidth))
+dtb=Button(root,text="<<Decipher<<",font=("Times New Roman",14),command=lambda:putText(cte,pte,False,keys,numRounds,halfwidth),bg="#E9E9E9",bd=10,relief="solid")
 
 #button to print all keys
-printKeys=Button(root,text="print keys",command=lambda:printAllKeys(keys))
+printKeys=Button(root,text="print keys",command=lambda:printAllKeys(keys),bg="#E9E9E9",bd=10,relief="solid",width=30,height=5,font=("Times New Roman",14))
 
 
 #variables to get value of numRounds and halfWidth from radio buttons
@@ -287,22 +303,22 @@ nRounds=IntVar()
 halfwidths=IntVar()
 
 #label for number of rounds
-nRLabel=Label(frame,text="Number of rounds",font=("Times New Roman",14))
+nRLabel=Label(frame,text="Number of rounds",bg="#222930",font=("Times New Roman",14),fg="white")
 #label for halfwidth
-hLabel=Label(frame,text="halfWidth",font=("Times New Roman",14))
+hLabel=Label(frame,text="halfWidth",bg="#222930",font=("Times New Roman",14),fg="white")
 #label for space
-sLabel=Label(frame,text="   ",font=("Times New Roman",14))
+sLabel=Label(frame,text="   ",bg="#222930",font=("Times New Roman",14),fg="white")
 
 #Radiobuttons for numRounds
-r1=Radiobutton(frame,text=" 1",value="1",variable=nRounds,command=lambda:setRounds(nRounds,keyEntry))
-r2=Radiobutton(frame,text=" 8",value="8",variable=nRounds,command=lambda:setRounds(nRounds,keyEntry))
-r3=Radiobutton(frame,text="16",value="16",variable=nRounds,command=lambda:setRounds(nRounds,keyEntry))
-r4=Radiobutton(frame,text="32",value="32",variable=nRounds,command=lambda:setRounds(nRounds,keyEntry))
+r1=Radiobutton(frame,text=" 1",value="1",variable=nRounds,command=lambda:setRounds(nRounds,keyEntry),indicator=0,bg="#abcfef",width=4)
+r2=Radiobutton(frame,text=" 8",value="8",variable=nRounds,command=lambda:setRounds(nRounds,keyEntry),indicator=0,bg="#abcfef",width=4)
+r3=Radiobutton(frame,text="16",value="16",variable=nRounds,command=lambda:setRounds(nRounds,keyEntry),indicator=0,bg="#abcfef",width=4)
+r4=Radiobutton(frame,text="32",value="32",variable=nRounds,command=lambda:setRounds(nRounds,keyEntry),indicator=0,bg="#abcfef",width=4)
 
 #Radiobuttons for halfWidth
-h1=Radiobutton(frame,text="16",value="16",variable=halfwidths,command=lambda:setHalfWidth(halfwidths))
-h2=Radiobutton(frame,text="32",value="32",variable=halfwidths,command=lambda:setHalfWidth(halfwidths))
-h3=Radiobutton(frame,text="64",value="64",variable=halfwidths,command=lambda:setHalfWidth(halfwidths))
+h1=Radiobutton(frame,text="16",value="16",variable=halfwidths,command=lambda:setHalfWidth(halfwidths),indicator=0,bg="#abcfef",width=4)
+h2=Radiobutton(frame,text="32",value="32",variable=halfwidths,command=lambda:setHalfWidth(halfwidths),indicator=0,bg="#abcfef",width=4)
+h3=Radiobutton(frame,text="64",value="64",variable=halfwidths,command=lambda:setHalfWidth(halfwidths),indicator=0,bg="#abcfef",width=4)
 
 
 #Positioning of all the fields in UI
