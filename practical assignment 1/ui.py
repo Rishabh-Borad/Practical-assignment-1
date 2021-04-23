@@ -143,7 +143,8 @@ def testAvalanche(entry1,entry2,entry,numRounds,halfwidth,testMessage):
 	avaEntries=[]
 	roundNumberEntries=[]
 	ava=Tk()
-	ava.title("Avalanche")
+	rl=Label(ava,text="Rounds",font=("Times New Roman",14))
+	bl=Label(ava,text="Change in bits",font=("Times New Roman",14))
 	msg1=entry1.get("1.0",END)
 	msg2=""
 	if entry2 != None:
@@ -151,7 +152,7 @@ def testAvalanche(entry1,entry2,entry,numRounds,halfwidth,testMessage):
 	key=entry.get("1.0",END)
 
 	if testMessage:
-		print(msg1==msg2)
+		ava.title("Avalanche for messages")
 		key=hex2bin(key)
 		pc1Table=generatePC1Table(len(key))
 		key=permutedChoice(key,pc1Table)
@@ -164,7 +165,7 @@ def testAvalanche(entry1,entry2,entry,numRounds,halfwidth,testMessage):
 			roundNumberEntries[i].grid(row=9+i,column=0)
 			avaEntries[i].grid(row=9+i,column=1)
 	else:
-		
+		ava.title("Avalanche for keys")
 		msg1=hex2bin(msg1)
 		pc1Table=generatePC1Table(len(msg1))
 		msg1=permutedChoice(msg1,pc1Table)
@@ -176,6 +177,9 @@ def testAvalanche(entry1,entry2,entry,numRounds,halfwidth,testMessage):
 			avaEntries[i].insert("1.0",str(out[i]))
 			roundNumberEntries[i].grid(row=9+i,column=0)
 			avaEntries[i].grid(row=9+i,column=1)
+
+	rl.grid(row=0,column=0)
+	bl.grid(row=0,column=1)
 	ava.mainloop()
 
 
@@ -343,7 +347,8 @@ tam.grid(row=12,column=0)
 ml.grid(row=6,column=2)
 kl1.grid(row=8,column=2)
 k1.grid(row=9,column=2)
-m.grid(row=7,column=2)\
+m.grid(row=7,column=2)
+# k2.grid(row=10,column=2)
 
 tak.grid(row=10,column=2)
 
